@@ -34,7 +34,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.GridView;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -53,9 +53,9 @@ import io.github.mthli.mount.util.IntentUtils;
 import io.github.mthli.mount.util.PolicyUtils;
 import io.github.mthli.mount.util.RxUtils;
 import io.github.mthli.mount.util.ToastUtils;
+import io.github.mthli.mount.widget.PackageItemAdapter;
 import io.github.mthli.mount.widget.PackageSettingLayout;
 import io.github.mthli.mount.widget.PolicyHintLayout;
-import io.github.mthli.mount.widget.PackageItemAdapter;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -66,7 +66,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MountActivity extends Activity implements AbsListView.OnScrollListener,
         AdapterView.OnItemClickListener, PackageSettingLayout.PackageSettingLayoutListener {
-    private ListView mListView;
+    private GridView mListView;
     private PolicyHintLayout mHeaderView;
     private PackageItemAdapter mPackageAdapter;
     private List<PackageRecord> mPackageList;
@@ -91,12 +91,11 @@ public class MountActivity extends Activity implements AbsListView.OnScrollListe
     }
 
     private void setupListView() {
-        mListView = (ListView) findViewById(R.id.list);
+        mListView = (GridView) findViewById(R.id.list);
 
         mPackageList = new ArrayList<>();
         mPackageAdapter = new PackageItemAdapter(this, mPackageList);
         mListView.setAdapter(mPackageAdapter);
-        mListView.setHeaderDividersEnabled(false);
 
         mListView.setOnScrollListener(this); // not show fast scroll always
         mListView.setOnItemClickListener(this);
@@ -199,7 +198,7 @@ public class MountActivity extends Activity implements AbsListView.OnScrollListe
         mHeaderView = (PolicyHintLayout) getLayoutInflater().inflate(R.layout.layout_device_hint,
                 mListView, false);
         if (!PolicyUtils.isDeviceOwnerApp(this)) {
-            mListView.addHeaderView(mHeaderView);
+            //mListView.addHeaderView(mHeaderView);
             hideOptions();
         }
 
@@ -211,14 +210,14 @@ public class MountActivity extends Activity implements AbsListView.OnScrollListe
                     public void accept(Long aLong) throws Exception {
                         if (!PolicyUtils.isDeviceOwnerApp(MountActivity.this)) {
                             hideOptions();
-                            if (mListView.getHeaderViewsCount() <= 0){
-                                mListView.addHeaderView(mHeaderView);
-                            }
+//                            if (mListView.getHeaderViewsCount() <= 0){
+//                                mListView.addHeaderView(mHeaderView);
+//                            }
                         } else {
                             showOptions();
-                            if (mListView.getHeaderViewsCount() > 0) {
-                                mListView.removeHeaderView(mHeaderView);
-                            }
+//                            if (mListView.getHeaderViewsCount() > 0) {
+//                                mListView.removeHeaderView(mHeaderView);
+//                            }
                         }
                     }
                 });
@@ -365,6 +364,15 @@ public class MountActivity extends Activity implements AbsListView.OnScrollListe
                                 return Collator.getInstance().compare(record1.label, record2.label);
                             }
                         });
+
+                        List<PackageRecord> mountList = new ArrayList<>();
+                        for (PackageRecord record : recordList) {
+                            if (record.umount) {
+                                mountList.add(record);
+                            }
+                        }
+                        recordList.removeAll(mountList);
+                        recordList.addAll(0,mountList);
 
                         e.onNext(recordList);
                         e.onComplete();

@@ -19,60 +19,50 @@
   -->
 
 <io.github.mthli.mount.widget.PackageItemLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="90dp"
+    android:layout_height="90dp"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:descendantFocusability="blocksDescendants">
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <ImageView android:id="@+id/icon"
-               android:contentDescription="@null"
-               android:layout_width="40dp"
-               android:layout_height="40dp"
-               android:layout_centerInParent="true"
-               android:layout_alignParentStart="true"
-               android:scaleType="centerInside">
-    </ImageView>
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_launcher">
+        </ImageView>
 
-    <ImageView android:id="@+id/umount"
-               android:contentDescription="@null"
-               android:layout_width="32dp"
-               android:layout_height="32dp"
-               android:layout_marginEnd="-8dp"
-               android:src="@drawable/ic_eject"
-               android:layout_centerInParent="true"
-               android:layout_alignParentEnd="true"
-               android:scaleType="centerInside"
-               android:visibility="gone">
-    </ImageView>
-
-    <LinearLayout android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_centerInParent="true"
-                  android:layout_toStartOf="@id/umount"
-                  android:layout_toEndOf="@id/icon"
-                  android:paddingStart="16dp"
-                  android:paddingEnd="16dp">
-
-        <TextView android:id="@+id/label"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:textColor="?android:attr/textColorPrimary"
-                  android:textSize="16sp"
-                  android:maxLines="1"
-                  android:ellipsize="end">
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="demo"
+            android:textColor="#222"
+            android:textSize="10sp">
         </TextView>
-
-        <TextView android:id="@+id/version"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:textColor="?android:attr/textColorSecondary"
-                  android:textSize="14sp"
-                  android:maxLines="1"
-                  android:ellipsize="end">
-        </TextView>
-
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/umount"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#6666"
+        android:contentDescription="@null"
+        android:visibility="visible">
+    </ImageView>
+
 
 </io.github.mthli.mount.widget.PackageItemLayout>
